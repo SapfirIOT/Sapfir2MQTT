@@ -42,7 +42,7 @@ sapfirlocal:
 	addresses:  
 	host: 0.0.0.0  
 	pkgmaxlen: 4096
-    loglevel: INFO
+	loglevel: INFO
 	processing_interval: 0.05  
 	tokens:
 ```
@@ -58,7 +58,7 @@ sapfirlocal:
   	addresses: секция для хранения IP-адресов конечных устройств (заполняется автоматически)
   	host: адрес интерфейса для приема UDP-пакетов
   	pkgmaxlen: ограничение длины принимаемого пакета (не изменяйте этот параметр без необходимости)
-    loglevel: уровень логирования, может принимать значения DEBUG/INFO/NOTICE/WARNING/ERROR/CRITICAL
+  	loglevel: уровень логирования, может принимать значения DEBUG/INFO/NOTICE/WARNING/ERROR/CRITICAL
   	processing_interval: пауза в работе UDP-сервера, необходимая для корректной работы асихронных методов (не изменяйте этот параметр без необходимости)
 	tokens: секция для хранения токенов конечных устройств (заполняется автоматически)
 
