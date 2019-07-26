@@ -1,0 +1,12 @@
+mqtt:
+  host: 127.0.0.1
+  password: 'password'
+  port: 1883
+  user: 'user'
+sapfirlocal:
+  addresses:
+  tokens:
+  loglevel: 'INFO'
+  host: 0.0.0.0
+  pkgmaxlen: 4096
+  processing_interval: 0.05

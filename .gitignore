@@ -1,0 +1,9 @@
+.idea
+*.swo
+*.swp
+*_bk
+*_bk1
+*.bk
+*.pyc
+config.yml
+.ropeproject
