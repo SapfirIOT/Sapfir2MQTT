@@ -10,7 +10,7 @@ Sapfir2MQTT производит обмен данными с устройств
 
 1. Python3
 2. Библиотеки python3:
-	- paho.mqtt
+	- paho.mqtt (не ниже версии 1.4)
 	- asyncio
 	- socket
 	- yaml
@@ -23,10 +23,9 @@ Sapfir2MQTT производит обмен данными с устройств
 ## Debian based linux (ubuntu, debian, mint и т.п.)
 ```
 sudo apt-get update
-sudo apt-get install python3 python3-paho-mqtt python3-yaml
+sudo apt-get install python3 python3-pip
+pip3 install paho-mqtt yaml
 ```
-## Windows
-
 
 # Запуск
 
@@ -43,6 +42,7 @@ sapfirlocal:
 	addresses:  
 	host: 0.0.0.0  
 	pkgmaxlen: 4096
+    loglevel: INFO
 	processing_interval: 0.05  
 	tokens:
 ```
@@ -58,9 +58,15 @@ sapfirlocal:
   	addresses: секция для хранения IP-адресов конечных устройств (заполняется автоматически)
   	host: адрес интерфейса для приема UDP-пакетов
   	pkgmaxlen: ограничение длины принимаемого пакета (не изменяйте этот параметр без необходимости)
+    loglevel: уровень логирования, может принимать значения DEBUG/INFO/NOTICE/WARNING/ERROR/CRITICAL
   	processing_interval: пауза в работе UDP-сервера, необходимая для корректной работы асихронных методов (не изменяйте этот параметр без необходимости)
 	tokens: секция для хранения токенов конечных устройств (заполняется автоматически)
 
+```
+
+Непосредственно запуск должен производиться из директории, в которой расположен скрипт sapfir2mqtt.py и конфигурационный файл config.yml:
+```
+$ ./sapfir2mqtt.py
 ```
 
 # Подключение устройств
