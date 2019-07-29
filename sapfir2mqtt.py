@@ -21,7 +21,7 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
         self.blacklist = ['uniq_id', 'token', 'ip', 'ping', 'n', 'hp',
                           'tcp-state', 'cur-ch', 'time', 'adc', 'en-tcp',
                           's', 'hw-pb', 'fw-pb', 'pwr-in', 'pwr-brd',
-                          'ble-dev', 'tb-list']
+                          'ble-dev', 'tb-list', 'ai-lis', 'ai-pis']
         # list of signals for which the client can change values
         self.modifablelist = ['r-dtrl', 'coff-term', 'light-en', 'tint-en',
                               'aref', 'micwnd', 'rele-wt', 'coff-ntc',
