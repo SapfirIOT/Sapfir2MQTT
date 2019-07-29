@@ -85,6 +85,8 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
     # override method from class SapfirLocal
     def updateSignal(self, dev_serial, signal_name, last_update, last_value,
                      value):
+        if type(value) in (list, tuple):
+            value = str(value)
         signal_data = {'last_update': time() * 1000, 'last_change': last_update,
                        'value': value, 'prev_value': last_value}
         # publish if signal is in dictionary whitelist
@@ -96,6 +98,8 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
 
     # override method from class SapfirLocal
     def insertSignal(self, dev_serial, signal_name, value):
+        if type(value) in (list, tuple):
+            value = str(value)
         signal_data = {'last_update': time() * 1000, 'last_change': None,
                        'value': value, 'prev_value': None}
         if signal_name not in self.blacklist:

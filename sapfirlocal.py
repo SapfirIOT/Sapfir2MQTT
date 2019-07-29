@@ -212,6 +212,8 @@ class SapfirLocal:
             self.checkRequest(dev_data['uniq_id'], dev_data)
 
     def insertSignal(self, dev_serial, signal_name, value):
+        if type(value) in (list, tuple):
+            value = str(value)
         signal_data = {'last_update': time() * 1000, 'last_change': None,
                        'value': value, 'prev_value': None}
         return signal_data
