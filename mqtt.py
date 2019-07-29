@@ -126,7 +126,12 @@ class Mqtt:
                                                   json.loads(msg.payload)))
 
     def publish(self, topic, value):
-        self.client.publish(topic, value)
+        if value is None:
+            self.client.publish(topic, None)
+        elif not type(value) in (str, int, float):
+            self.client.publish(topic, str(value))
+        else:
+            self.client.publish(topic, value)
 
     def startMQTTClient(self):
         self.loopMQTT = asyncio.get_event_loop()
