@@ -83,11 +83,17 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
         if not self.confMQTT.get('password'):
             self.confMQTT['password'] = ''
 
+    # converting value from various unsupported types into string
+    def __checkValueType__(self, value):
+        if value is None or value in (str, float):
+            return value
+        else:
+            return str(value)
+
     # override method from class SapfirLocal
     def updateSignal(self, dev_serial, signal_name, last_update, last_value,
                      value):
-        if type(value) in (list, tuple):
-            value = str(value)
+        value = self.__checkValueType__(value)
         signal_data = {'last_update': time() * 1000, 'last_change': last_update,
                        'value': value, 'prev_value': last_value}
         # publish if signal is in dictionary whitelist
@@ -99,8 +105,7 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
 
     # override method from class SapfirLocal
     def insertSignal(self, dev_serial, signal_name, value):
-        if type(value) in (list, tuple):
-            value = str(value)
+        value = self.__checkValueType__(value)
         signal_data = {'last_update': time() * 1000, 'last_change': None,
                        'value': value, 'prev_value': None}
         if signal_name not in self.blacklist:
@@ -119,6 +124,7 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
             signal_name = sign_arr[-1]
             dev_serial = int(sign_arr[-2])
             value = json.loads(msg.payload)
+            value = self.__checkValueType__(value)
             # send request to change value if signal is in modifablelist
             if signal_name in self.modifablelist:
                 lastsignal = self.signals.get(dev_serial)

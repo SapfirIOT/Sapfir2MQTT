@@ -128,7 +128,7 @@ class Mqtt:
     def publish(self, topic, value):
         if value is None:
             self.client.publish(topic, None)
-        elif not type(value) in (str, int, float):
+        elif type(value) not in (str, int, float):
             self.client.publish(topic, str(value))
         else:
             self.client.publish(topic, value)
