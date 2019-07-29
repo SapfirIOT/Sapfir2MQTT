@@ -99,7 +99,7 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
         # publish if signal is in dictionary whitelist
         if signal_name not in self.blacklist:
             topic = '/sapfir/%s/%s' % (dev_serial, signal_name)
-            self.l.i('Updating signal for %s: %s' % (topic, value))
+            self.l.i('MQTT OUT: %s -> %s' % (topic, value))
             self.publish(topic, value)
         return signal_data
 
@@ -111,7 +111,7 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
         if signal_name not in self.blacklist:
             topic = '/sapfir/%s/%s' % (dev_serial, signal_name)
             if signal_name not in self.blacklist and signal_name != 'ver':
-                self.l.i('Updating signal for %s: %s' % (topic, value))
+                self.l.i('MQTT OUT: %s -> %s' % (topic, value))
                 self.publish(topic, value)
                 signal_data['last_change'] = time() * 1000
                 signal_data['last_value'] = value
@@ -131,7 +131,7 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
                 if lastsignal:
                     lvalue = lastsignal.get(signal_name)['value']
                     if value != lvalue:
-                        self.l.i('MQTT INCOMING: %s/%s: %s' % (dev_serial,
+                        self.l.i('MQTT IN:  /sapfir/%s/%s <- %s' % (dev_serial,
                                                                signal_name,
                                                                value))
                         self.sendPacket(dev_serial, {signal_name: value})
