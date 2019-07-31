@@ -62,7 +62,8 @@ class Mqtt:
     def on_socket_open(self, client, userdata, sock):
         """ called just after the socket was opend
             client:     the client instance for this callback
-            userdata:   the private user data as set in Client() or userdata_set()
+            userdata:   the private user data as set in Client() or
+                        userdata_set()
             sock:       the socket which was just opened
         """
         def cb():
@@ -73,7 +74,8 @@ class Mqtt:
     def on_socket_close(self, client, userdata, sock):
         """ called just before the socket is closed
             client:     the client instance for this callback
-            userdata:   the private user data as set in Client() or userdata_set()
+            userdata:   the private user data as set in Client() or
+                        userdata_set()
             sock:       the socket which is about to be closed
         """
         self.loopMQTT.remove_reader(sock)
@@ -82,7 +84,8 @@ class Mqtt:
     def on_socket_register_write(self, client, userdata, sock):
         """ called when the socket needs writing but can't
             client:     the client instance for this callback
-            userdata:   the private user data as set in Client() or userdata_set()
+            userdata:   the private user data as set in Client() or
+                        userdata_set()
             sock:       the socket which should be registered for writing
         """
         def cb():
@@ -92,7 +95,8 @@ class Mqtt:
     def on_socket_unregister_write(self, client, userdata, sock):
         """ called when the socket doesn't need writing anymore
             client:     the client instance for this callback
-            userdata:   the private user data as set in Client() or userdata_set()
+            userdata:   the private user data as set in Client() or
+                        userdata_set()
             sock:       the socket which should be unregistered for writing
         """
         self.loopMQTT.remove_writer(sock)
@@ -107,7 +111,8 @@ class Mqtt:
     def on_connect(self, client, userdata, flags, rc):
         """ called when the broker responds to our connection
             client:     the client instance for this callback
-            userdata:   the private user data as set in Client() or userdata_set()
+            userdata:   the private user data as set in Client() or
+                        userdata_set()
             flags:      response flags sent by the broker
             rc:         the connection result
         """
@@ -117,10 +122,12 @@ class Mqtt:
             self.client.subscribe("/sapfir/#")
 
     def on_message(self, client, userdata, msg):
-        """called when a message has been received on a topic that the client subscribes to
+        """ called when a message has been received on a topic that the client
+                        subscribes to
             client:     the client instance for this callback
-            userdata:   the private user data as set in Client() or userdata_set()
-            msg:    an instance of MQTTMessage
+            userdata:   the private user data as set in Client() or
+                        userdata_set()
+            msg:        an instance of MQTTMessage
         """
         self.l.debug("Got MQTT message: %s %s" % (msg.topic,
                                                   json.loads(msg.payload)))

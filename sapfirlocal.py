@@ -180,13 +180,17 @@ class SapfirLocal:
                     # if signal value in received packet not equal to signal
                     # value from signals[dev_serial][signal_name]
                     if value != last_value:
-                        last_update = self.signals[dev_serial][signal_name]['last_update']
-                        self.signals[dev_serial][signal_name] = self.updateSignal(dev_serial, signal_name, last_update, last_value, value)
+                        last_update = \
+                            self.signals[dev_serial][signal_name]['last_update']
+                        self.signals[dev_serial][signal_name] = \
+                            self.updateSignal(dev_serial, signal_name,
+                                              last_update, last_value, value)
                 else:
                     # signal value in received packet
                     value = dev_data[signal_name]
                     # remember new signal
-                    self.signals[dev_serial][signal_name] = self.insertSignal(dev_serial, signal_name, value)
+                    self.signals[dev_serial][signal_name] = \
+                        self.insertSignal(dev_serial, signal_name, value)
         else:
             dev_signals = {}
             for signal_name in dev_data:
@@ -270,7 +274,8 @@ class SapfirLocal:
         """ dev_serial: device serial number
             signals:    signals that need to change values
         """
-        if signals and dev_serial and self.getToken(dev_serial) and self.getAddress(dev_serial):
+        if signals and dev_serial and self.getToken(dev_serial) and \
+                self.getAddress(dev_serial):
             # time in seconds
             time_sec = int(time())
             uniq_id = int(time() % 100 * 1000)
