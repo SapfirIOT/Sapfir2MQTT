@@ -224,6 +224,18 @@ class SapfirLocal:
                        'value': value, 'prev_value': last_value}
         return signal_data
 
+    def saveConfig(self):
+        """ rewrite current config file (config.yml) with new values
+        """
+        config = {'sapfirlocal': self.confSL}
+        with open('config.yml', 'w') as conffile:
+            try:
+                yaml.safe_dump(config, conffile)
+                return True
+            except yaml.YAMLError as e:
+                self.l.error(e)
+                return False
+
     def saveAddress(self, dev_serial, addr):
         """ update config when new address is received
             dev_serial: device serial number
@@ -232,13 +244,12 @@ class SapfirLocal:
         if dev_serial not in self.confSL['addresses']:
             self.confSL['addresses'][dev_serial] = addr[0]
             self.l.n('Found new device with address %s' % addr[0])
-            if hasattr(self, 'confMQTT'):
-                config = {'sapfirlocal': self.confSL, 'mqtt': self.confMQTT}
-            with open('config.yml', 'w') as conffile:
-                try:
-                    yaml.safe_dump(config, conffile)
-                except yaml.YAMLError as e:
-                    self.l.error(e)
+            self.saveConfig()
+        elif self.confSL['addresses'][dev_serial] != addr[0]:
+            self.l.n('Address for device %s was changed from %s to %s' % (
+                     dev_serial, self.confSL['addresses'][dev_serial], addr[0]))
+            self.confSL['addresses'][dev_serial] = addr[0]
+            self.saveConfig()
 
     def saveTokens(self, dev_serial, token):
         """ update config when new token is received
@@ -248,13 +259,12 @@ class SapfirLocal:
         if dev_serial not in self.confSL['tokens']:
             self.confSL['tokens'][dev_serial] = token
             self.l.n('Got token for device %s' % dev_serial)
-            if hasattr(self, 'confMQTT'):
-                config = {'sapfirlocal': self.confSL, 'mqtt': self.confMQTT}
-            with open('config.yml', 'w') as conffile:
-                try:
-                    yaml.safe_dump(config, conffile)
-                except yaml.YAMLError as e:
-                    self.l.error(e)
+            self.saveConfig()
+        elif self.confSL['tokens'][dev_serial] != token:
+            self.l.n('Token for device %s was changed from %s to %s' % (
+                     dev_serial, self.confSL['tokens'][dev_serial], token))
+            self.confSL['tokens'][dev_serial] = token
+            self.saveConfig()
 
     def sendPacket(self, dev_serial, signals={}):
         """ dev_serial: device serial number

@@ -117,6 +117,17 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
                 signal_data['last_value'] = value
         return signal_data
 
+    # override method from calss SapfirLocal
+    def saveConfig(self):
+        config = {'sapfirlocal': self.confSL, 'mqtt': self.confMQTT}
+        with open('config.yml', 'w') as conffile:
+            try:
+                yaml.safe_dump(config, conffile)
+                return True
+            except yaml.YAMLError as e:
+                self.l.error(e)
+                return False
+
     # override method from class Mqtt
     def on_message(self, client, userdata, msg):
         try:
@@ -132,8 +143,7 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
                     lvalue = lastsignal.get(signal_name)['value']
                     if value != lvalue:
                         self.l.i('MQTT IN:  /sapfir/%s/%s <- %s' % (dev_serial,
-                                                               signal_name,
-                                                               value))
+                                 signal_name, value))
                         self.sendPacket(dev_serial, {signal_name: value})
                 else:
                     self.sendPacket(dev_serial, {signal_name: value})
