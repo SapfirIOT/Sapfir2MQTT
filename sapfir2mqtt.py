@@ -134,7 +134,7 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
             sign_arr = (str(msg.topic)).split('/')
             signal_name = sign_arr[-1]
             dev_serial = int(sign_arr[-2])
-            value = json.loads(msg.payload)
+            value = json.loads(msg.payload.decode('utf-8'))
             value = self.__checkValueType__(value)
             # send request to change value if signal is in modifablelist
             if signal_name in self.modifablelist:
