@@ -110,11 +110,10 @@ class Sapfir2MQTT(SapfirLocal, Mqtt):
                        'value': value, 'prev_value': None}
         if signal_name not in self.blacklist:
             topic = '/sapfir/%s/%s' % (dev_serial, signal_name)
-            if signal_name not in self.blacklist and signal_name != 'ver':
-                self.l.i('MQTT OUT: %s -> %s' % (topic, value))
-                self.publish(topic, value)
-                signal_data['last_change'] = time() * 1000
-                signal_data['last_value'] = value
+            self.l.i('MQTT OUT: %s -> %s' % (topic, value))
+            self.publish(topic, value)
+            signal_data['last_change'] = time() * 1000
+            signal_data['last_value'] = value
         return signal_data
 
     # override method from calss SapfirLocal

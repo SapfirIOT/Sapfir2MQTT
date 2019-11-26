@@ -8,6 +8,7 @@ import socket
 import asyncio
 from time import time
 from simplelog import SimpleLog
+import ast
 
 sys = os.sys
 
@@ -98,7 +99,10 @@ class SapfirLocal:
         while True:
             data, addr = await self.udpRecieve()
             try:
-                decrypted_data = json.loads(data.decode())['header']
+                data = data.replace(b'\n', b'')
+                decrypted_data = json.loads(data)
+                if 'header' in decrypted_data:
+                    decrypted_data = decrypted_data['header']
             except:
                 if data != b'Discovery':
                     self.l.warn('Got unknown format of packet from %s: %s' %
@@ -145,7 +149,10 @@ class SapfirLocal:
         # device serial number
         dev_serial = data['id']
         # signals
-        dev_data = data['data']
+        if 'data'in data:
+            dev_data = data['data']
+        else:
+            dev_data = data
 
         # remember address in dictionary address (ip, port)
         self.saveAddress(dev_serial, addr)
